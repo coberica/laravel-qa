@@ -75,7 +75,6 @@ class QuestionsController extends Controller
     public function update(AskQuestionRequest $request, Question $question)
     {
         $question->update($request->only('title','body'));
-
         return redirect()->route('questions.index')->with('success','Your question has been updated.');
     }
 
@@ -88,7 +87,6 @@ class QuestionsController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
-
         return redirect()->route('questions.index')->with('success','Your question has been deleted.');
     }
 }
