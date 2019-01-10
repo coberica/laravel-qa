@@ -19,8 +19,8 @@ class Answer extends Model
     }
 
     public function getCreatedDateAttribute(){
-        //return $this->created_at->diffForHumans();
-        return $this->created_at->format("d-m-Y");
+        return $this->created_at->diffForHumans();
+        //return $this->created_at->format("d-m-Y");
     }
     
     public static function boot(){
