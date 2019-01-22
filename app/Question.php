@@ -16,6 +16,10 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function favourites(){
+        return $this->belongsToMany(User::class,'favourites')->withTimestamps();
+    }
+
     public function setTitleAttribute($value){
         $this->attributes['title']=$value;
         $this->attributes['slug']=str_slug($value);
@@ -43,8 +47,20 @@ class Question extends Model
         return \Parsedown::instance()->text($this->body);
     }
 
+    public function getIsFavouritedAttribute(){
+        return $this->isFavourited();
+    }
+
+    public function getFavouritesCountAttribute(){
+        return $this->favourites()->count();
+    }
+
     public function acceptBestAnswer(Answer $answer){
         $this->best_answer_id=$answer->id;
         $this->save();
+    }
+
+    public function isFavourited(){
+        return $this->favourites()->where('user_id',auth()->id())->count()>0;
     }
 }

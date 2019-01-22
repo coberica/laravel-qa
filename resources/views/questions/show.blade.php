@@ -24,10 +24,17 @@
                             <a title="This question is not useful" class="vote-down off">
                                 <svg class="fas fa-caret-down fa-3x"></svg>
                             </a>
-                            <a title="Click to mark as favourite question (Click again to undo)" class="favourite mt-2 favourited">
+                            <a title="Click to mark as favourite question (Click again to undo)" class="favourite mt-2 {{Auth::guest()?'off':($question->is_favourited?'favourited':'')}}"
+                                onclick="event.preventDefault();document.getElementById('favourite-question-{{$question->id}}').submit();">
                                 <svg class="fas fa-star fa-2x"></svg>
-                                <span class="favourites-count">3</span>
+                                <span class="favourites-count">{{$question->favourites_count}}</span>
                             </a>
+                            <form id="favourite-question-{{$question->id}}" action="/questions/{{$question->id}}/favourite" method="POST" style="display:none;">
+                                @csrf
+                                @if($question->is_favourited)
+                                    @method('DELETE')
+                                @endif
+                            </form>
                         </div>
                         <div class="media-body">
                             {!!$question->body_html!!}
