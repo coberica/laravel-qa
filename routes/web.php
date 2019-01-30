@@ -28,3 +28,5 @@ Route::post('/answers/{answer}/accept','AcceptAnswerController')->name('answers.
 
 Route::post('/questions/{question}/favourite','FavouritesController@store')->name('questions.favourite');
 Route::delete('/questions/{question}/favourite','FavouritesController@destroy')->name('questions.unfavourite');
+
+Route::post('/questions/{question}/vote','VoteQuestionController');

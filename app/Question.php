@@ -20,6 +20,10 @@ class Question extends Model
         return $this->belongsToMany(User::class,'favourites')->withTimestamps();
     }
 
+    public function votes(){
+        return $this->morphToMany(User::class,'votable');
+    }
+
     public function setTitleAttribute($value){
         $this->attributes['title']=$value;
         $this->attributes['slug']=str_slug($value);
@@ -62,5 +66,13 @@ class Question extends Model
 
     public function isFavourited(){
         return $this->favourites()->where('user_id',auth()->id())->count()>0;
+    }
+
+    public function upVotes(){
+        return $this->votes()->wherePivot('vote',1);
+    }
+
+    public function downVotes(){
+        return $this->votes()->wherePivot('vote',-1);
     }
 }
